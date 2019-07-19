@@ -1,10 +1,31 @@
 \documentclass[a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[margin=2.54cm]{geometry}
+
 \begin{document}
-	\centering \large \textbf{ TROV\~{A}O RPG} \\
-    \normalsize \centering Planilha de Personagem \\
-    
+	\begin{minipage}[t][][t]{\linewidth}
+		\begin{minipage}[t][][t]{\dimexpr(\linewidth-2.8cm)\relax}
+			\begin{minipage}[t][][t]{.5\linewidth}
+				Nome \hrulefill \\
+				Arqu\'{e}tipo \hrulefill
+			\end{minipage}%
+			\hspace{.01\linewidth}%
+			\begin{minipage}[t][][t]{.49\linewidth}
+				Jogador \hrulefill \\
+				Motriz \hrulefill
+			\end{minipage}
+			Apar\^{e}ncia \hrulefill
+		\end{minipage}%
+		\hspace{.2cm}%
+		\begin{minipage}[t][][t]{2cm}
+			\includegraphics[width=2cm, valign=t]{img/logo.png}
+		\end{minipage}
+	\end{minipage}
+	\vspace{1cm}\\
 	\begin{minipage}[t][][t]{.5\linewidth}
-	   	\centering Atributos	
+		\centering Atributos	
 	\end{minipage}%
 	\begin{minipage}[t][][t]{.5\linewidth}
 		\centering Vantagens e Desvantagens
