@@ -4,19 +4,73 @@
 \usepackage[export]{adjustbox}
 \usepackage[margin=1.5cm]{geometry}
 \addtolength{\topmargin}{-.5cm}
+\addtolength{\textheight}{.5cm}
 \usepackage{tabularx}
 \usepackage{tikz}
 \usetikzlibrary{calc}
 \usepackage{marvosym}
+\usepackage[utf8]{inputenc}
 
-\newcommand{\droplet}{%
-	\begin{tikzpicture}
-	\coordinate (a) at (0,.66);% Change 1.5 to change the shape of the droplet
-	\node [circle,draw,fill=red,red] (c) at (0,0) [maxsize=.5pt] {$c$};
-	\draw[red,fill] (a) -- (tangent cs:node=c,point={(a)},solution=1) --
-	(c.center) -- (tangent cs:node=c,point={(a)},solution=2) -- cycle;
-	\end{tikzpicture}%
+\usetikzlibrary{shapes}
+\tikzset{
+	dot hidden/.style={},
+	line hidden/.style={},
+	dot colour/.style={dot hidden/.append style={color=#1}},
+	dot colour/.default=black,
+	line colour/.style={line hidden/.append style={color=#1}},
+	line colour/.default=black
 }
+
+\def\dotsize{0.075}
+
+\usepackage{xparse}
+\NewDocumentCommand{\drawhashdie}{O{}m}{
+	\begin{tikzpicture}[x=10pt,y=10pt,#1, every draw/.style={inner sep=0,outer sep=0}]
+	\draw (-.1,.25) -- (.6,.25);
+	\draw (-.1,.45) -- (.6,.45);
+	\draw (.2,.65) -- (.1,.05);
+	\draw (.4,.65) -- (.3,.05);
+	\draw[thick, rounded corners=0.5,line hidden] (.75,0) rectangle (1.5,.75);
+	\ifodd#2
+	\fill[dot hidden] (0.365+.75,0.365) circle (\dotsize);
+	\fi
+	\ifnum#2>1
+	\fill[dot hidden] (0.2+.75,0.2) circle (\dotsize);
+	\fill[dot hidden] (0.55+.75,0.55) circle (\dotsize);
+	\ifnum#2>3
+	\fill[dot hidden] (0.2+.75,0.55) circle (\dotsize);
+	\fill[dot hidden] (0.55+.75,0.2) circle (\dotsize);
+	\ifnum#2>5
+	\fill[dot hidden] (0.55+.75,0.36) circle (\dotsize);
+	\fill[dot hidden] (0.2+.75,0.36) circle (\dotsize);
+	\fi
+	\fi
+	\fi
+	\end{tikzpicture}
+}
+
+\NewDocumentCommand{\drawdie}{O{}m}{
+	\begin{tikzpicture}[x=10pt,y=10pt,#1, every draw/.style={inner sep=0,outer sep=0}]
+	\draw[thick, rounded corners=0.5,line hidden] (0,0) rectangle (.75,.75);
+	\ifodd#2
+	\fill[dot hidden] (0.365,0.365) circle (\dotsize);
+	\fi
+	\ifnum#2>1
+	\fill[dot hidden] (0.2,0.2) circle (\dotsize);
+	\fill[dot hidden] (0.55,0.55) circle (\dotsize);
+	\ifnum#2>3
+	\fill[dot hidden] (0.2,0.55) circle (\dotsize);
+	\fill[dot hidden] (0.55,0.2) circle (\dotsize);
+	\ifnum#2>5
+	\fill[dot hidden] (0.8,0.5) circle (\dotsize);
+	\fill[dot hidden] (0.2,0.5) circle (\dotsize);
+	\fi
+	\fi
+	\fi
+	\end{tikzpicture}
+}
+
+\inputencoding{utf8}
 
 \begin{document}
 	\begin{minipage}[t][][t]{\linewidth}
@@ -26,6 +80,7 @@
 				Arqu\'{e}tipo \hrulefill
 			\end{minipage}%
 			\hspace{.01\linewidth}%
+			%
 			\begin{minipage}[t][][t]{.49\linewidth}
 				Jogador \hrulefill \\
 				Motriz \hrulefill
@@ -34,6 +89,7 @@
 			\rule{\linewidth}{.5pt}
 		\end{minipage}%
 		\hspace{.2cm}%
+		%
 		\begin{minipage}[t][][t]{3cm}
 			\includegraphics[width=3cm, valign=t]{img/logo.png}
 		\end{minipage}
@@ -42,6 +98,7 @@
 	\begin{minipage}[t][][t]{.49\linewidth}
 		{\centering Atributos \\}
 		\vspace{.3cm}
+		
 		\begin{tabularx}{\textwidth}{ p{.01\linewidth} l X X X X }
 			& & inicial & pontos & final & dado \\
 			\Mars & Força & \rule{\linewidth}{.5pt}  & \rule{\linewidth}{.5pt}  & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
@@ -52,9 +109,11 @@
 			\Venus & Carisma  & \rule{\linewidth}{.5pt}  & \rule{\linewidth}{.5pt}  & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
 		\end{tabularx}
 	\end{minipage}%
-	\hspace{.02\linewidth}
+	\hspace{.02\linewidth}%
+	%
 	\begin{minipage}[t][][t]{.49\linewidth}
 		{\centering Vantagens e Desvantagens \\[\baselineskip]}
+		
 		\vspace{.18cm}
 		\rule{.4\linewidth}{.5pt}(\hspace{.05\linewidth}) \rule{.4\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
 		\rule{.4\linewidth}{.5pt}(\hspace{.05\linewidth}) \rule{.4\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
@@ -63,189 +122,208 @@
 		\rule{.4\linewidth}{.5pt}(\hspace{.05\linewidth}) \rule{.4\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
 		\rule{.4\linewidth}{.5pt}(\hspace{.05\linewidth}) \rule{.4\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
 	\end{minipage} \\
+
+	\begin{minipage}{\linewidth}
+		\begin{minipage}{.49\linewidth}
+			\Sagittarius \hspace{3pt} PV \rule{20pt}{.5pt}%
+			\hspace{3pt}%
+			Limite \rule{20pt}{.5pt}%
+			\hspace{3pt}%
+			Proteção \rule{20pt}{.5pt}%
+			\hspace{3pt}%
+		\end{minipage}%
+		\hspace{.02\linewidth}%
+		%
+		\begin{minipage}{.49\linewidth}
+		\begin{flushleft}
+			\Leo \hspace{3pt} PM \rule{20pt}{.5pt}
+		\end{flushleft}
+		\end{minipage}
+	\end{minipage} \\
 	
-	\begin{minipage}[t][][t]{.49\linewidth}
+	\begin{minipage}[t][][t]{.3\linewidth}
 		{\centering Itens \\}
 		\vspace{.14cm}
-		\rule{.49\linewidth}{.5pt}\hspace{.01\linewidth}\rule{.49\linewidth}{.5pt}\\
-		\rule{.49\linewidth}{.5pt}\hspace{.01\linewidth}\rule{.49\linewidth}{.5pt}\\
-		\rule{.49\linewidth}{.5pt}\hspace{.01\linewidth}\rule{.49\linewidth}{.5pt}\\
-		\rule{.49\linewidth}{.5pt}\hspace{.01\linewidth}\rule{.49\linewidth}{.5pt}\\
-		\rule{.49\linewidth}{.5pt}\hspace{.01\linewidth}\rule{.49\linewidth}{.5pt}\\
-		\rule{.49\linewidth}{.5pt}\hspace{.01\linewidth}\rule{.49\linewidth}{.5pt}\\
-		\rule{.49\linewidth}{.5pt}\hspace{.01\linewidth}\rule{.49\linewidth}{.5pt}\vspace{.6cm}\\
-		\centering Perícias \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		\rule{.66\linewidth}{.5pt}(\hspace{.05\linewidth}) \\
+		
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
+		\rule{\linewidth}{.5pt} \\
 	\end{minipage}%
-	\hspace{.02\linewidth}
-	\begin{minipage}[t][][t]{.49\linewidth}
+	\hspace{.04\linewidth}%
+	%
+	\begin{minipage}[t][][t]{.66\linewidth}
 		{\centering Perícias \\}
-		\begin{flushleft}
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Acrobacia (Agi) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Lidar com Animais (Car) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Arcanologia (Int) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Atletismo (For) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Enganação (Car) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		História (Int) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Discernimento (*) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Intimidação (Car) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Investigação (Int) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Medicina (Int) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Natureza (Int) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Percepção (*) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Atuação (Car) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Persuasão (Car) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Religião (Int) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Prestidigitação (Agi) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Furtividade (Agi) \\
-		\begin{tikzpicture}
-		\draw (0,0) circle (3pt);
-		\end{tikzpicture}
-		\rule{24pt}{.5pt}
-		Sobrevivência (Von) \\
-		\end{flushleft}
-	\end{minipage}\vspace{12pt}\\
+		\vspace{.14cm}
+		
+		\begin{minipage}[t][][t]{.45\linewidth}
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Acrobacia (Agi) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Lidar com Animais (Car) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Arcanologia (Int) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Atletismo (For) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Enganação (Car) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			História (Int) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Discernimento (*) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Intimidação (Car) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Investigação (Int) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Medicina (Int) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Natureza (Int) \\			
+		\end{minipage}%
+		\hspace{.1\linewidth}%
+		\begin{minipage}[t][][t]{.45\linewidth}
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Percepção (*) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Atuação (Car) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Persuasão (Car) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Religião (Int) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Prestidigitação (Agi) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Furtividade (Agi) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			Sobrevivência (Von) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			\rule{80pt}{.5pt} (\hspace{20pt}) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			\rule{80pt}{.5pt} (\hspace{20pt}) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			\rule{80pt}{.5pt} (\hspace{20pt}) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			\rule{80pt}{.5pt} (\hspace{20pt}) \\
+			\begin{tikzpicture}
+			\draw (0,0) circle (3pt);
+			\end{tikzpicture}
+			\rule{24pt}{.5pt}
+			\rule{80pt}{.5pt} (\hspace{20pt}) \\
+		\end{minipage}
+	\end{minipage}
 	
 	\begin{minipage}{\linewidth}
 		{\centering Técnicas \vspace{.3cm}\\}
-		\begin{tabularx}{\linewidth}{ p{.2\linewidth} p{.08\linewidth} p{.06\linewidth} p{.08\linewidth} p{.5\linewidth}}
-			Nome & pontos & mana & \#dados & descricao \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
-			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{.94\linewidth}{.5pt} \\
+		\begin{tabularx}{\linewidth}{ p{.2\linewidth} p{.1\linewidth} p{.63\textwidth}}
+			Nome
+			& 
+			\Capricorn/\Leo/%
+			\hspace{-4pt}%
+			\drawhashdie{5}%
+			& descricao \vspace{9pt}\\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
+			\rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} & \rule{\linewidth}{.5pt} \\
 		\end{tabularx}
 	\end{minipage}\vspace{.3cm}\\
 	
 	\begin{minipage}{\linewidth}
 		\begin{minipage}{.7\linewidth}
-			Pontuação\\
+			\Capricorn \hspace{3pt} Pontuação\\
 			inicial \rule{.1\linewidth}{.5pt} 
 			adquirida \rule{.3\linewidth}{.5pt} 
 			livre \rule{.2\linewidth}{.5pt}
 		\end{minipage}
 		\begin{minipage}{.2\linewidth}
 			{\centering Recursos\\}
+			\rule{\linewidth}{.5pt}
 			\rule{\linewidth}{.5pt}
 			\rule{\linewidth}{.5pt}
 		\end{minipage}
