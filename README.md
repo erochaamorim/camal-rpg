@@ -1,1 +1,1 @@
-# trpg-revamp
+# Camal RPG
